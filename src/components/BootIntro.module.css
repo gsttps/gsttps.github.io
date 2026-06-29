@@ -1,0 +1,52 @@
+/* =============================================================
+   BootIntro.module.css
+
+   Estilos de la secuencia de boot (spec §6.1):
+
+   1. .cursor — pseudo-elemento ::after que añade un guion bajo
+      parpadeante al final de la línea que se está escribiendo.
+      Usa el @keyframes blink definido en globals.css.
+
+   2. .flash — destello RGB cian-magenta que cubre toda la
+      pantalla durante ~0.4 s al terminar la secuencia de boot,
+      simulando la transición glitch que revela el Hero.
+   ============================================================= */
+
+
+/* ── Cursor de terminal ─────────────────────────────────────
+   Se aplica al <span> que envuelve el texto activo mientras
+   el typewriter está escribiendo la última línea visible.
+   ::after inserta el guion bajo con el color neón.
+   blink viene de globals.css (keyframe compartido).           */
+.cursor::after {
+  content: '_';
+  color: var(--color-neon-cyan);   /* token global via @theme */
+  animation: blink 1s step-end infinite;
+}
+
+
+/* ── Flash de transición glitch ─────────────────────────────
+   Cubre la pantalla con un degradado cian→magenta que parpadea
+   con steps(2) para el efecto de glitch digital brusco.
+   mix-blend-mode: screen lo hace aditivo sobre el fondo oscuro.
+
+   El componente renderiza este div sólo cuando `flashing` es true,
+   y lo omite completamente cuando reduced-motion está activo
+   (la condición !reduced la maneja el componente en el JSX).   */
+.flash {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 242, 0.5),   /* cian neón */
+    rgba(255, 0, 230, 0.5)    /* magenta neón */
+  );
+  mix-blend-mode: screen;
+  animation: glitch-flash 0.42s steps(2) both;
+}
+
+/* Keyframe: alterna opacidades de forma abrupta (steps, no ease)
+   para el efecto de señal cortada de forma digital.            */
+@keyframes glitch-flash {
+  0%, 100%         { opacity: 0; }
+  10%, 30%, 50%    { opacity: 0.9; }
+  20%, 40%         { opacity: 0.1; }
+}

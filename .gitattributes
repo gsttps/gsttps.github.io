@@ -1,0 +1,6 @@
+# Normalizar a LF en el repo (estándar web)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "skills": "Skills",
+    "contact": "Contact"
+  },
+  "hero": {
+    "role": "Developer",
+    "tagline": "React · TypeScript · Python · Cybersecurity",
+    "ctaProjects": "View projects",
+    "ctaContact": "Contact"
+  },
+  "about": {
+    "title": "About me",
+    "kicker": "// whoami",
+    "p1": " ",
+    "p2": "My current focus is full-stack development — React, TypeScript and FastAPI — combined with an active interest in cybersecurity: penetration testing, network auditing, and malware analysis.",
+    "facts": {
+      "location": "Santiago",
+      "study": "Student",
+      "focus": "React · TypeScript · FastAPI",
+      "security": "Cybersecurity"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "kicker": "// ls ./projects",
+    "viewCode": "Code",
+    "liveDemo": "Demo",
+    "soonTitle": "More projects coming",
+    "soonDesc": "I'm building new projects along my roadmap. Check back soon for the next drops."
+  },
+  "skills": {
+    "title": "Skills",
+    "kicker": "// cat skills.txt",
+    "securityNote": "Differentiator / plus",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "databases": "Databases",
+      "tools": "Tools / OS",
+      "security": "Cybersecurity"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "kicker": "// ping me",
+    "email": "Email",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "whatsapp": "WhatsApp",
+    "cv": "Download CV"
+  },
+  "footer": {
+    "builtWith": "Built with React, TypeScript and Three.js",
+    "rights": "All rights reserved."
+  },
+  "a11y": {
+    "toggleLang": "Switch language",
+    "skipIntro": "Skip intro",
+    "scrollTop": "Scroll to top",
+    "scrollBottom": "Scroll to bottom"
+  }
+}

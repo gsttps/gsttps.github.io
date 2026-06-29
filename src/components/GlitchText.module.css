@@ -1,0 +1,82 @@
+/* =============================================================
+   GlitchText.module.css
+
+   Efecto glitch cromático: duplica el texto del elemento con
+   ::before (cian) y ::after (magenta), animados con clip-path
+   y translate para simular corrupción de señal tipo CRT.
+
+   Cómo funciona:
+   · El elemento padre tiene position: relative.
+   · Las capas duplican el texto via content: attr(data-text).
+   · clip-path recorta cada capa en distintas franjas del eje Y.
+   · translate desplaza las capas 1-2px en X/Y alternadamente.
+   · En hover se aceleran las animaciones para "interferencia alta".
+   · prefers-reduced-motion: se ocultan las capas decorativas.
+   ============================================================= */
+
+
+/* ── Contenedor ─────────────────────────────────────────────
+   position: relative para anclar los pseudo-elementos.
+   inline-block para que el contenedor ajuste su ancho al texto. */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+
+/* ── Capas de color (::before = cian, ::after = magenta) ────
+   Se superponen exactamente encima del texto original.
+   pointer-events: none para no interferir con clics/selección. */
+.glitch::before,
+.glitch::after {
+  content: attr(data-text); /* texto tomado del atributo data-text del elemento */
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* Capa cian: ciclo más lento (2.6 s) */
+.glitch::before {
+  color: var(--color-neon-cyan);
+  animation: glitch-shift 2.6s infinite linear alternate-reverse;
+}
+
+/* Capa magenta: ciclo más rápido (2 s) — el desfase crea el efecto RGB */
+.glitch::after {
+  color: var(--color-neon-magenta);
+  animation: glitch-shift 2s infinite linear alternate-reverse;
+}
+
+
+/* ── Hover: interferencia alta ──────────────────────────────
+   Al pasar el cursor, se aceleran las duraciones para simular
+   un glitch más agresivo como respuesta a la interacción.     */
+.glitch:hover::before { animation-duration: 0.4s; }
+.glitch:hover::after  { animation-duration: 0.5s; }
+
+
+/* ── Keyframe: tearing de señal ─────────────────────────────
+   En cada paso se cambian simultáneamente:
+   · clip-path: qué franja horizontal es visible
+   · translate: desplazamiento subpíxel de la capa
+   El resultado es el "tearing" característico del glitch CRT. */
+@keyframes glitch-shift {
+  0%   { transform: translate(0, 0);      clip-path: inset(0 0 85% 0); }
+  20%  { transform: translate(-2px, 1px); clip-path: inset(60% 0 20% 0); }
+  40%  { transform: translate(2px, -1px); clip-path: inset(20% 0 55% 0); }
+  60%  { transform: translate(-1px, 2px); clip-path: inset(70% 0 5% 0); }
+  80%  { transform: translate(1px, -2px); clip-path: inset(10% 0 75% 0); }
+  100% { transform: translate(0, 0);      clip-path: inset(40% 0 40% 0); }
+}
+
+
+/* ── Accesibilidad ──────────────────────────────────────────
+   Con prefers-reduced-motion se ocultan las capas decorativas.
+   El texto base sigue siendo perfectamente legible.            */
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before,
+  .glitch::after {
+    display: none;
+  }
+}

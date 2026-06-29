@@ -1,0 +1,4 @@
+/* Los estilos globales viven en src/styles/globals.css
+   Este archivo existe solo como punto de compatibilidad con el
+   import original de main.tsx — redirige al nuevo globals.css */
+@import './styles/globals.css';

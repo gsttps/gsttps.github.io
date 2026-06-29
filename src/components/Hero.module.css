@@ -1,0 +1,47 @@
+/* =============================================================
+   Hero.module.css
+
+   Estilos de animación exclusivos del Hero:
+
+   1. .cursor — cursor de terminal parpadeante, igual al de
+      BootIntro pero en contexto del handle "gsttps".
+      Usa el @keyframes blink definido en globals.css.
+
+   2. .flicker — parpadeo errático que imita un letrero de neón
+      que no hace buen contacto eléctrico. Se aplica al handle.
+   ============================================================= */
+
+
+/* ── Cursor de terminal (handle gsttps) ─────────────────────
+   Misma lógica que BootIntro.module.css .cursor,
+   pero vive aquí para que Hero sea un módulo independiente
+   y no acople su estilo al de la intro de boot.              */
+.cursor::after {
+  content: '_';
+  color: var(--color-neon-cyan);
+  animation: blink 1s step-end infinite; /* blink definido en globals.css */
+}
+
+
+/* ── Flicker neón ───────────────────────────────────────────
+   Simula el parpadeo irregular de un letrero de gas neón.
+   Los % no son uniformes a propósito: la irregularidad es
+   lo que hace que parezca un fallo físico real y no digital. */
+.flicker {
+  animation: flicker 3.5s infinite;
+}
+
+@keyframes flicker {
+  /* La mayoría del tiempo el letrero está encendido (opacity 1) */
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  /* Parpadeos cortos e irregulares al 20%, 24% y 55% */
+  20%, 24%, 55%                           { opacity: 0.55; }
+}
+
+
+/* ── Accesibilidad (modelo híbrido) ─────────────────────────
+   El parpadeo del cursor es una animación SUAVE: se mantiene
+   activa siempre, incluso con prefers-reduced-motion, porque
+   es sutil y no genera movimiento que pueda marear.
+   Las animaciones FUERTES (glitch, scanlines, 3D) se desactivan
+   en sus propios componentes vía useReducedMotion.            */

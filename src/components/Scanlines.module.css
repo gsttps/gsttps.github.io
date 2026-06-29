@@ -1,0 +1,65 @@
+/* =============================================================
+   Scanlines.module.css
+
+   Dos overlays fixed que emulan el aspecto de un monitor CRT:
+
+   1. .scanlines — franjas horizontales semitransparentes que
+      se desplazan hacia abajo en un loop, imitando el barrido
+      de electrones del tubo catódico.
+
+   2. .vignette — degradado radial oscuro en los bordes, que
+      imita la curvatura del tubo y focaliza la mirada al centro.
+
+   Ambos están position: fixed y z-index alto para cubrir toda
+   la página, pero pointer-events: none para no bloquear nada.
+   ============================================================= */
+
+
+/* ── Overlay de scanlines ───────────────────────────────────
+   repeating-linear-gradient crea las franjas: cada 4px hay
+   una franja oscura de 1px. La animación desplaza el fondo
+   100px hacia abajo en 8 s para dar la ilusión de movimiento. */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* por encima de todo el contenido */
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0)    0,
+    rgba(0, 0, 0, 0)    2px,   /* zona transparente */
+    rgba(0, 0, 0, 0.18) 3px,   /* franja oscura (1px) */
+    rgba(0, 0, 0, 0)    4px    /* vuelta a transparente */
+  );
+
+  /* multiply oscurece sólo donde hay contenido, sin afectar el negro base */
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+
+  animation: scanline-drift 8s linear infinite;
+}
+
+/* Anima el background-position-y para que las líneas "corran" hacia abajo */
+@keyframes scanline-drift {
+  from { background-position-y: 0; }
+  to   { background-position-y: 100px; }
+}
+
+
+/* ── Viñeta CRT ─────────────────────────────────────────────
+   Degradado radial que oscurece los cuatro bordes de la pantalla,
+   simulando la curvatura del vidrio del tubo catódico.
+   z-index 55 (por debajo de scanlines para que se combinen). */
+.vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,          /* centro completamente transparente */
+    rgba(0, 0, 0, 0.45) 100% /* bordes oscurecidos al 45% */
+  );
+}
